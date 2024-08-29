@@ -16,8 +16,7 @@ def mostra_titulo():
 def mostra_escolhas():
     print("1. Cadastrar ferramentas")
     print("2. Listar ferramentas")
-    print("3. Ativar Estoque")
-    print("4. Sair")
+
 
 def escolher_opcao():
 
@@ -32,9 +31,13 @@ def escolher_opcao():
 
     def cadastrar_ferramentas():
         exibir_subtitulo("Cadastrar ferramentas")
+        
         nome_ferramentas = input("Digite o nome do produto que deseja cadastrar")
-        ferramentas.append(nome_ferramentas)
-        print(f" O produto {nome_ferramentas} foi cadastrado com sucesso\n")
+        categoria_ferramentas = input("Digite a categoria de mercadoria da sua escolha")
+        dados_da_ferramentas = {"nome":nome_ferramentas,"categoria":categoria_ferramentas, "ativo":True}
+        ferramentas.append(dados_da_ferramentas)
+        print(f" A ferramenta {nome_ferramentas}foi cadastrado com sucesso\n")
+        
         retorna_menu()
 
     def listar_ferramentas():
