@@ -1,7 +1,6 @@
 import os
 
-ferramentas = [{"nome":"marreta1", "quantidade":"20", "ativo":True}]
-       
+ferramentas = []
 
 def mostra_titulo():
     print("""
@@ -11,75 +10,95 @@ def mostra_titulo():
     ██║░░╚═╝███████║╚█████╗░███████║  ██║░░██║███████║╚█████╗░  █████╗░░██████╔╝█████╗░░╚█████╗░███████║╚█████╗░
     ██║░░██╗██╔══██║░╚═══██╗██╔══██║  ██║░░██║██╔══██║░╚═══██╗  ██╔══╝░░██╔══██╗██╔══╝░░░╚═══██╗██╔══██║░╚═══██╗
     ╚█████╔╝██║░░██║██████╔╝██║░░██║  ██████╔╝██║░░██║██████╔╝  ██║░░░░░██║░░██║███████╗██████╔╝██║░░██║██████╔╝
-    ░╚════╝░╚═╝░░╚═╝╚═════╝░╚═╝░░╚═╝  ╚═════╝░╚═╝░░╚═╝╚═════╝░  ╚═╝░░░░░╚═╝░░╚═╝╚══════╝╚═════╝░╚═╝░░╚═╝╚═════╝░""")
+    ░╚════╝░╚═╝░░╚═╝╚═════╝░╚═╝░░╚═╝  ╚═════╝░╚═╝░░╚═╝╚═════╝░  ╚═╝░░░░░╚═╝░░╚═╝╚══════╝╚═════╝░╚═╝░░╚═╝╚═════╝░
+    """)
 
 def mostra_escolhas():
     print("1. Cadastrar ferramentas")
     print("2. Listar ferramentas")
-
+    print("3. Ativar estoque")
+    print("4. Finalizar programa")
 
 def escolher_opcao():
 
     def exibir_subtitulo(texto):
-        os.system("cls")
         print(texto)
         print("")
 
     def retorna_menu():
-        input(" Digite uma tecla para voltar ao menu principal ")
+        input("\nPressione qualquer tecla para voltar ao menu principal.")
         main()
 
     def cadastrar_ferramentas():
         exibir_subtitulo("Cadastrar ferramentas")
         
-        nome_ferramentas = input("Digite o nome do produto que deseja cadastrar")
-        categoria_ferramentas = input("Digite a categoria de mercadoria da sua escolha")
-        dados_da_ferramentas = {"nome":nome_ferramentas,"categoria":categoria_ferramentas, "ativo":True}
-        ferramentas.append(dados_da_ferramentas)
-        print(f" A ferramenta {nome_ferramentas}foi cadastrado com sucesso\n")
+        nome_ferramentas = input("Digite o nome da ferramenta que deseja cadastrar: ")
+        quantidade_ferramentas = input("Digite a quantidade da ferramenta: ")
+        dados_da_ferramenta = {"nome": nome_ferramentas, "quantidade": quantidade_ferramentas, "ativo": True}
+        ferramentas.append(dados_da_ferramenta)
+        print(f"\nA ferramenta '{nome_ferramentas}' foi cadastrada com sucesso!\n")
         
         retorna_menu()
 
     def listar_ferramentas():
-        exibir_subtitulo("Lista de ferramentas cadastrados\n")
-        for ferramenta in ferramentas:
-            nome_ferramenta = ferramenta["nome"]
-            categoria_ferramenta = ferramenta["quantidade"]
-            ativo = ferramenta["ativo"]
-            print(f" - {nome_ferramenta} | {categoria_ferramenta} | {ativo}")
+        exibir_subtitulo("Lista de ferramentas cadastradas")
+        if ferramentas:
+            for ferramenta in ferramentas:
+                nome_ferramenta = ferramenta["nome"]
+                quantidade_ferramenta = ferramenta["quantidade"]
+                ativo = "Ativo" if ferramenta["ativo"] else "Inativo"
+                print(f" - {nome_ferramenta} | Quantidade: {quantidade_ferramenta} | Status: {ativo}")
+        else:
+            print("Nenhuma ferramenta cadastrada.")
         retorna_menu()
 
+    def ativar_estoque():
+        exibir_subtitulo("Ativar Estoque")
+        ferramenta_nome = input("Digite o nome da ferramenta que deseja ativar: ")
+        ferramenta_encontrada = False
         
+        for ferramenta in ferramentas:
+            if ferramenta["nome"].lower() == ferramenta_nome.lower():
+                ferramenta["ativo"] = True
+                print(f"A ferramenta '{ferramenta_nome}' foi ativada com sucesso!")
+                ferramenta_encontrada = True
+                break
+        
+        if not ferramenta_encontrada:
+            print(f"Ferramenta '{ferramenta_nome}' não encontrada.")
+        
+        retorna_menu()
 
     def finalizar_programa():
-        os.system('cls')
-        print('Finalizar programa\n')
-        
+        print("\nFinalizando o programa...\n")
+        exit()
+
     def opcao_invalida():
-        print('está é uma opção inválida, escolha outra opção')
-        input('Aperte qualquer tecla para voltar')
+        print("\nOpção inválida, escolha outra opção.")
+        input("\nPressione qualquer tecla para voltar ao menu principal.")
         main()
-            
+
     try:
-        opcao_escolhida = int(input('Escolha uma opção'))
+        opcao_escolhida = int(input("Escolha uma opção: "))
 
         if opcao_escolhida == 1:
             cadastrar_ferramentas()
         elif opcao_escolhida == 2:
             listar_ferramentas()
         elif opcao_escolhida == 3:
-            print('Você escolheu Ativar Estoque')
+            ativar_estoque()
         elif opcao_escolhida == 4:
             finalizar_programa()
         else:
             opcao_invalida()
-    except:
+    except ValueError:
         opcao_invalida()
         
 def main():
-    mostra_titulo()
-    mostra_escolhas()
-    escolher_opcao()
+    while True:
+        mostra_titulo()
+        mostra_escolhas()
+        escolher_opcao()
     
 if __name__ == '__main__':
     main()
